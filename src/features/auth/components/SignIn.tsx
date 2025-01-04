@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,7 +10,7 @@ import { FaFacebook, FaGithub } from 'react-icons/fa';
 import { SignInFlow } from '../type';
 
 interface SignInProps {
-        setState: (state: SignInFlow) => {};
+        setState: (state: SignInFlow) => void;
 }
 export const SignIn: React.FC<SignInProps> = ({ setState }) => {
         const [email, setEmail] = useState('');

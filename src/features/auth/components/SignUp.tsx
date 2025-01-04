@@ -9,7 +9,7 @@ import { FaFacebook, FaGithub } from 'react-icons/fa';
 import { SignInFlow } from '../type';
 
 interface SignUpProps {
-        setState: (state: SignInFlow) => {};
+        setState: (state: SignInFlow) => void;
 }
 export const SignUp: React.FC<SignUpProps> = ({ setState }) => {
         const [email, setEmail] = useState('');
