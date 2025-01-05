@@ -1,4 +1,7 @@
 import { ConvexClientProvider } from '@/components/ConvexClientProvider';
+
+import { ConvexAuthNextjsServerProvider } from '@convex-dev/auth/nextjs/server';
+
 import './globals.css';
 import { League_Spartan } from 'next/font/google';
 
@@ -11,10 +14,12 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
         return (
-                <html lang="en">
-                        <body className={leagueSpartan.className}>
-                                <ConvexClientProvider>{children}</ConvexClientProvider>
-                        </body>
-                </html>
+                <ConvexAuthNextjsServerProvider>
+                        <html lang="en">
+                                <body className={leagueSpartan.className}>
+                                        <ConvexClientProvider>{children}</ConvexClientProvider>
+                                </body>
+                        </html>
+                </ConvexAuthNextjsServerProvider>
         );
 }

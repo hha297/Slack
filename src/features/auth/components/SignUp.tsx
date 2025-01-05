@@ -77,16 +77,6 @@ export const SignUp: React.FC<SignUpProps> = ({ setState }) => {
                                                 <FaGithub className="size-50 absolute left-3 top-1/2 -translate-y-1/2" />
                                                 Continue with Google
                                         </Button>
-                                        <Button
-                                                type="button"
-                                                className="w-full relative"
-                                                size="lg"
-                                                variant="outline"
-                                                disabled={false}
-                                        >
-                                                <FaFacebook className="size-50 absolute left-3 top-1/2 -translate-y-1/2 text-blue-500" />
-                                                Continue with Facebook
-                                        </Button>
                                 </div>
                                 <p className="text-center text-sm text-muted-foreground">
                                         Already have an account?{' '}

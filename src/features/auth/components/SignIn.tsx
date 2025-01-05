@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import React, { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
-
+import { useAuthActions } from '@convex-dev/auth/react';
 import { FaFacebook, FaGithub } from 'react-icons/fa';
 import { SignInFlow } from '../type';
 
@@ -13,6 +13,10 @@ interface SignInProps {
         setState: (state: SignInFlow) => void;
 }
 export const SignIn: React.FC<SignInProps> = ({ setState }) => {
+        const { signIn } = useAuthActions();
+        const handleProviderSignIn = (value: 'google' | 'github') => {
+                signIn(value);
+        };
         const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
         return (
@@ -63,19 +67,10 @@ export const SignIn: React.FC<SignInProps> = ({ setState }) => {
                                                 size="lg"
                                                 variant="outline"
                                                 disabled={false}
+                                                onClick={() => handleProviderSignIn('github')}
                                         >
                                                 <FaGithub className="size-50 absolute left-3 top-1/2 -translate-y-1/2" />
-                                                Continue with Google
-                                        </Button>
-                                        <Button
-                                                type="button"
-                                                className="w-full relative"
-                                                size="lg"
-                                                variant="outline"
-                                                disabled={false}
-                                        >
-                                                <FaFacebook className="size-50 absolute left-3 top-1/2 -translate-y-1/2 text-blue-500" />
-                                                Continue with Facebook
+                                                Continue with Github
                                         </Button>
                                 </div>
                                 <p className="text-center text-sm text-muted-foreground">
