@@ -16,6 +16,7 @@ interface SignUpProps {
 export const SignUp: React.FC<SignUpProps> = ({ setState }) => {
         const { signIn } = useAuthActions();
         const [email, setEmail] = useState('');
+        const [name, setName] = useState('');
         const [password, setPassword] = useState('');
         const [confirmPassword, setConfirmPassword] = useState('');
         const [pending, setPending] = useState(false);
@@ -28,7 +29,7 @@ export const SignUp: React.FC<SignUpProps> = ({ setState }) => {
                         return;
                 }
                 setPending(true);
-                signIn('password', { email, password, flow: 'signUp' })
+                signIn('password', { email, name, password, flow: 'signUp' })
                         .catch(() => {
                                 setError('Invalid email or password');
                         })
@@ -60,6 +61,13 @@ export const SignUp: React.FC<SignUpProps> = ({ setState }) => {
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 type="email"
                                                 placeholder="Email"
+                                                required
+                                        />
+                                        <Input
+                                                disabled={pending}
+                                                value={name}
+                                                onChange={(e) => setName(e.target.value)}
+                                                placeholder="Name"
                                                 required
                                         />
 
