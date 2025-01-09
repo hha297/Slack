@@ -1,6 +1,6 @@
 'use client';
 
-import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
+import { useCurrentUser } from '@/features/auth/api/useCurrentUser';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { Loader, LogOut } from 'lucide-react';
