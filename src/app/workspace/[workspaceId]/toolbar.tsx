@@ -15,9 +15,7 @@ export const ToolBar = () => {
                                         className="bg-accent/25 hover:bg-accent-25 w-full justify-start h-8 p-2"
                                 >
                                         <SearchIcon className="w-4 h-4 mr-1" />
-                                        <span className="text-sm text-white/80 my-auto">
-                                                Search in {data?.name} Fix center
-                                        </span>
+                                        <span className="text-sm text-white/80 my-auto">Search in {data?.name}</span>
                                 </Button>
                         </div>
 
