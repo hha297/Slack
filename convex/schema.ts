@@ -8,10 +8,10 @@ const schema = defineSchema({
                 userId: v.id('users'),
                 joinCode: v.string(),
         }),
-        member: defineTable({
+        members: defineTable({
                 workspaceId: v.id('workspaces'),
                 userId: v.id('users'),
-                role: v.union(v.literal('user'), v.literal('admin')),
+                role: v.union(v.literal('member'), v.literal('admin')),
         })
                 .index('by_user_id', ['userId'])
                 .index('by_workspace_id', ['workspaceId'])

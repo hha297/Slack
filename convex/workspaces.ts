@@ -27,7 +27,7 @@ export const create = mutation({
                         joinCode: joinCode,
                 });
 
-                await ctx.db.insert('member', {
+                await ctx.db.insert('members', {
                         workspaceId: workspaceId,
                         userId: userId,
                         role: 'admin',
@@ -43,7 +43,7 @@ export const get = query({
                         return [];
                 }
                 const members = await ctx.db
-                        .query('member')
+                        .query('members')
                         .withIndex('by_user_id', (q) => q.eq('userId', userId))
                         .collect();
 
@@ -69,7 +69,7 @@ export const getById = query({
                         throw new Error('User not authenticated');
                 }
                 const member = await ctx.db
-                        .query('member')
+                        .query('members')
                         .withIndex('by_workspace_id_and_user_id', (q) =>
                                 q.eq('workspaceId', args.id).eq('userId', userId),
                         )
