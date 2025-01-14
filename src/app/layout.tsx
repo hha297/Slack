@@ -6,6 +6,7 @@ import './globals.css';
 import { League_Spartan } from 'next/font/google';
 import { Modal } from '@/components/Modal';
 import { Toaster } from '@/components/ui/sonner';
+import { JotaiProvider } from '@/components/JotaiProvider';
 
 const leagueSpartan = League_Spartan({ subsets: ['latin'] });
 
@@ -20,9 +21,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <html lang="en">
                                 <body className={leagueSpartan.className}>
                                         <ConvexClientProvider>
-                                                <Toaster />
-                                                <Modal />
-                                                {children}
+                                                <JotaiProvider>
+                                                        <Toaster />
+                                                        <Modal />
+                                                        {children}
+                                                </JotaiProvider>
                                         </ConvexClientProvider>
                                 </body>
                         </html>
