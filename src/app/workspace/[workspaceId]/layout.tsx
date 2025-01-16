@@ -16,11 +16,13 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
                         <div className="flex h-[calc(100vh-48px)]">
                                 <Sidebar />
                                 <ResizablePanelGroup direction="horizontal" autoSaveId="hadh-layout">
-                                        <ResizablePanel minSize={20} className="bg-[#5E2C5F]">
+                                        <ResizablePanel defaultSize={20} minSize={20} className="bg-[#5E2C5F]">
                                                 <WorkspaceSideBar />
                                         </ResizablePanel>
                                         <ResizableHandle withHandle />
-                                        <ResizablePanel minSize={20}>{children}</ResizablePanel>
+                                        <ResizablePanel defaultSize={20} minSize={20}>
+                                                {children}
+                                        </ResizablePanel>
                                 </ResizablePanelGroup>
                         </div>
                 </div>
