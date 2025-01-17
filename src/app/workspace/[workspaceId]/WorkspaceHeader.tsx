@@ -11,6 +11,7 @@ import { ChevronDownIcon, ListFilterIcon, Sliders, SquarePenIcon, UserRoundPlusI
 import { Hint } from '@/components/Hint';
 import { PreferencesModal } from './PreferencesModal';
 import { useState } from 'react';
+import { InviteModal } from './InviteModal';
 
 interface WorkspaceHeaderProps {
         workspace: Doc<'workspaces'>;
@@ -18,8 +19,15 @@ interface WorkspaceHeaderProps {
 }
 export const WorkspaceHeader = ({ workspace, isAdmin }: WorkspaceHeaderProps) => {
         const [preferencesOpen, setPreferencesOpen] = useState(false);
+        const [inviteOpen, setInviteOpen] = useState(false);
         return (
                 <>
+                        <InviteModal
+                                open={inviteOpen}
+                                setOpen={setInviteOpen}
+                                name={workspace.name}
+                                joinCode={workspace.joinCode}
+                        />
                         <PreferencesModal
                                 open={preferencesOpen}
                                 setOpen={setPreferencesOpen}
@@ -55,7 +63,7 @@ export const WorkspaceHeader = ({ workspace, isAdmin }: WorkspaceHeaderProps) =>
                                                         <>
                                                                 <DropdownMenuItem
                                                                         className="cursor-pointer py-2 "
-                                                                        onClick={() => {}}
+                                                                        onClick={() => setInviteOpen(true)}
                                                                 >
                                                                         <UserRoundPlusIcon />
                                                                         Invite Members To {workspace.name}
