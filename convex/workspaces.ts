@@ -4,7 +4,7 @@ import { auth } from './auth';
 const generateCode = () => {
         const code = Array.from(
                 { length: 6 },
-                () => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.floor(Math.random() * 36)],
+                () => 'abcdefghijklmnopqrstuvwxyz0123456789'[Math.floor(Math.random() * 36)],
         ).join('');
         return code;
 };
@@ -35,6 +35,43 @@ export const create = mutation({
 
                 await ctx.db.insert('channels', { name: 'general', workspaceId: workspaceId });
                 return workspaceId;
+        },
+});
+
+export const join = mutation({
+        args: { id: v.id('workspaces'), joinCode: v.string() },
+        handler: async (ctx, args) => {
+                const userId = await auth.getUserId(ctx);
+                if (!userId) {
+                        throw new Error('User not authenticated');
+                }
+
+                const workspace = await ctx.db.get(args.id);
+                if (!workspace) {
+                        throw new Error('Workspace not found');
+                }
+
+                if (workspace.joinCode !== args.joinCode.toLowerCase()) {
+                        throw new Error('Invalid join code');
+                }
+
+                const existingMember = await ctx.db
+                        .query('members')
+                        .withIndex('by_workspace_id_and_user_id', (q) =>
+                                q.eq('workspaceId', args.id).eq('userId', userId),
+                        )
+                        .unique();
+
+                if (existingMember) {
+                        throw new Error('You are already a member of this workspace');
+                }
+                await ctx.db.insert('members', {
+                        workspaceId: workspace._id,
+                        userId: userId,
+                        role: 'member',
+                });
+
+                return workspace._id;
         },
 });
 
@@ -87,7 +124,24 @@ export const get = query({
                 return workspaces;
         },
 });
+export const getInfoById = query({
+        args: { id: v.id('workspaces') },
+        handler: async (ctx, args) => {
+                const userId = await auth.getUserId(ctx);
+                if (!userId) {
+                        return null;
+                }
+                const member = await ctx.db
+                        .query('members')
+                        .withIndex('by_workspace_id_and_user_id', (q) =>
+                                q.eq('workspaceId', args.id).eq('userId', userId),
+                        )
+                        .unique();
+                const workspace = await ctx.db.get(args.id);
 
+                return { name: workspace?.name, isMember: !!member };
+        },
+});
 export const getById = query({
         args: { id: v.id('workspaces') },
         handler: async (ctx, args) => {
