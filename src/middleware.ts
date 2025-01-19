@@ -9,14 +9,25 @@ const isPublicRoute = createRouteMatcher(['/auth']);
 
 // NOTE: IF ERROR, CHECK IN CONVEX DOCS https://labs.convex.dev/auth/authz/nextjs AND MADE CHANGE
 export default convexAuthNextjsMiddleware(async (request) => {
-        if (!isPublicRoute(request) && !(await isAuthenticatedNextjs())) {
-                return nextjsMiddlewareRedirect(request, '/auth');
-        }
+        try {
+                if (!isPublicRoute(request) && !(await isAuthenticatedNextjs())) {
+                        return nextjsMiddlewareRedirect(request, '/auth');
+                }
 
-        if (isPublicRoute(request) && (await isAuthenticatedNextjs())) {
-                return nextjsMiddlewareRedirect(request, '/');
+                if (isPublicRoute(request) && (await isAuthenticatedNextjs())) {
+                        return nextjsMiddlewareRedirect(request, '/');
+                }
+        } catch (error: any) {
+                console.error('Error in authentication middleware:', error);
+
+                // If the error is due to an expired token, redirect to the login page
+                if (error.message.includes('Expired')) {
+                        return nextjsMiddlewareRedirect(request, '/auth');
+                }
+
+                // Handle other errors
+                return new Response('Internal Server Error', { status: 500 });
         }
-        //TODO: Redirect user away from '/auth' if authenticated
 });
 
 export const config = {
