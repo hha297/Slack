@@ -15,7 +15,7 @@ export const WorkspaceSection = ({ children, label, hint, onNew }: WorkspaceSect
         const [on, toggle] = useToggle(true);
         return (
                 <div className="flex flex-col mt-3 px-2">
-                        <div className="flex items-center px-4 group">
+                        <div className="flex items-center px-4 group mb-2">
                                 <Button
                                         variant="transparent"
                                         className="p-1 text-sm text-[#fffbffef] shrink-0 size-6"
