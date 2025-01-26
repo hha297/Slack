@@ -6,9 +6,11 @@ import { AlertTriangleIcon, Loader } from 'lucide-react';
 import React from 'react';
 import { Header } from './Header';
 import { ChatInput } from './ChatInput';
+import { useGetMessages } from '@/features/messages/api/useGetMessages';
 
 const ChannelIdPage = () => {
         const channelId = useChannelId();
+        const { results } = useGetMessages({ channelId });
         const { data: channel, isLoading: isChannelLoading } = useGetChannel({ id: channelId });
 
         if (isChannelLoading)
@@ -30,6 +32,7 @@ const ChannelIdPage = () => {
                 <div className="flex flex-col h-full">
                         <Header channelName={channel.name} />
                         <div className="flex-1" />
+                        <div>{JSON.stringify(results)}</div>
                         <ChatInput placeholder={`Message #${channel.name}`} />
                 </div>
         );
