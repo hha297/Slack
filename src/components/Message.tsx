@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { Hint } from './Hint';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Thumbnail } from './Thumbnail';
+import { Toolbar } from './Toolbar';
 const Renderer = dynamic(() => import('./Renderer'), { ssr: false });
 
 interface MessageProps {
@@ -102,6 +103,17 @@ export const Message = ({
                                         ) : null}
                                 </div>
                         </div>
+                        {!isEditing && (
+                                <Toolbar
+                                        isSender={isSender}
+                                        isPending={false}
+                                        handleEdit={() => setEditingId(id)}
+                                        handleThread={() => {}}
+                                        handleDelete={() => {}}
+                                        handleReaction={() => {}}
+                                        hideThreadButton={hideThreadButton}
+                                />
+                        )}
                 </div>
         );
 };
