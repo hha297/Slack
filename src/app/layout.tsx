@@ -7,7 +7,7 @@ import { League_Spartan } from 'next/font/google';
 import { Modal } from '@/components/Modal';
 import { Toaster } from '@/components/ui/sonner';
 import { JotaiProvider } from '@/components/JotaiProvider';
-
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 const leagueSpartan = League_Spartan({ subsets: ['latin'] });
 
 export const metadata = {
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                                                 <JotaiProvider>
                                                         <Toaster />
                                                         <Modal />
-                                                        {children}
+                                                        <NuqsAdapter>{children}</NuqsAdapter>
                                                 </JotaiProvider>
                                         </ConvexClientProvider>
                                 </body>

@@ -13,6 +13,7 @@ import { useDeleteMessage } from '@/features/messages/api/useDeleteMessage';
 import { useConfirm } from '@/hooks/useConfirm';
 import { useToggleReaction } from '@/features/reactions/api/useToggleReaction';
 import { Reactions } from './Reactions';
+import { usePanel } from '@/hooks/usePanel';
 const Renderer = dynamic(() => import('./Renderer'), { ssr: false });
 const Editor = dynamic(() => import('./Editor'), { ssr: false });
 
@@ -61,6 +62,8 @@ export const Message = ({
                 'Delete Message',
                 'Are you sure you want to delete this message? This action cannot be undone.',
         );
+
+        const { parentMessageId, onOpenMessage, onCloseMessage } = usePanel();
         const { mutate: updateMessage, isPending: isUpdatingMessage } = useUpdateMessage();
         const { mutate: deleteMessage, isPending: isDeletingMessage } = useDeleteMessage();
         const { mutate: toggleReaction, isPending: isTogglingReaction } = useToggleReaction();
@@ -100,7 +103,10 @@ export const Message = ({
                         {
                                 onSuccess: () => {
                                         toast.success('Message deleted');
-                                        //TODO: Closed thread if open
+
+                                        if (parentMessageId === id) {
+                                                onCloseMessage();
+                                        }
                                 },
                                 onError: () => {
                                         toast.error('Failed to delete message');
@@ -158,7 +164,7 @@ export const Message = ({
                                                         isSender={isSender}
                                                         isPending={isPending}
                                                         handleEdit={() => setEditingId(id)}
-                                                        handleThread={() => {}}
+                                                        handleThread={() => onOpenMessage(id)}
                                                         handleDelete={handleDelete}
                                                         handleReaction={handleReaction}
                                                         hideThreadButton={hideThreadButton}
@@ -231,7 +237,7 @@ export const Message = ({
                                                 isSender={isSender}
                                                 isPending={isPending}
                                                 handleEdit={() => setEditingId(id)}
-                                                handleThread={() => {}}
+                                                handleThread={() => onOpenMessage(id)}
                                                 handleDelete={handleDelete}
                                                 handleReaction={() => {}}
                                                 hideThreadButton={hideThreadButton}
