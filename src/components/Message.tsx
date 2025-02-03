@@ -221,14 +221,19 @@ export const Message = ({
                                                                         </button>
                                                                 </Hint>
                                                         </div>
-                                                        <Renderer value={body} />
-                                                        <Thumbnail url={image} />
-                                                        {updatedAt ? (
-                                                                <span className="text-xs text-muted-foreground">
-                                                                        (edited)
-                                                                </span>
-                                                        ) : null}
-                                                        <Reactions reactions={reactions} onChange={handleReaction} />
+                                                        <div className="flex flex-col w-full">
+                                                                <Renderer value={body} />
+                                                                <Thumbnail url={image} />
+                                                                {updatedAt ? (
+                                                                        <span className="text-xs text-muted-foreground">
+                                                                                (edited)
+                                                                        </span>
+                                                                ) : null}
+                                                                <Reactions
+                                                                        reactions={reactions}
+                                                                        onChange={handleReaction}
+                                                                />
+                                                        </div>
                                                 </div>
                                         )}
                                 </div>
@@ -239,7 +244,7 @@ export const Message = ({
                                                 handleEdit={() => setEditingId(id)}
                                                 handleThread={() => onOpenMessage(id)}
                                                 handleDelete={handleDelete}
-                                                handleReaction={() => {}}
+                                                handleReaction={handleReaction}
                                                 hideThreadButton={hideThreadButton}
                                         />
                                 )}

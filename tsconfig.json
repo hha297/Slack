@@ -28,7 +28,8 @@
                 "**/*.ts",
                 "**/*.tsx",
                 ".next/types/**/*.ts",
-                "src/features/messages/api/useUpdateMessagets"
+                "src/features/messages/api/useUpdateMessagets",
+                "src/components/ConversationHero.tsx"
         ],
         "exclude": ["node_modules"]
 }

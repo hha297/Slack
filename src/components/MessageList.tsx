@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useWorkspaceId } from '@/hooks/useWorkspaceId';
 import { useCurrentMember } from '@/features/members/api/useCurrentMember';
 import { Loader } from 'lucide-react';
+import { ConversationHero } from './ConversationHero';
 interface MessageListProps extends React.HTMLAttributes<HTMLDivElement> {
         memberName?: string;
         memberImage?: string;
@@ -73,6 +74,7 @@ export const MessageList = ({
                                                                 new Date(message._creationTime),
                                                                 new Date(prevMessage._creationTime),
                                                         ) < TIME_THRESHOLD;
+
                                                 return (
                                                         <Message
                                                                 key={message._id}
@@ -127,6 +129,9 @@ export const MessageList = ({
                         )}
                         {variants === 'channel' && channelName && channelCreationTime && (
                                 <ChannelHero channelName={channelName} channelCreationTime={channelCreationTime} />
+                        )}
+                        {variants === 'conversation' && (
+                                <ConversationHero memberName={memberName} memberImage={memberImage} />
                         )}
                 </div>
         );

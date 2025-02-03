@@ -51,7 +51,11 @@ export const Thread = ({ messageId, onCloseMessage }: ThreadProps) => {
 
         const { data: currentMember } = useCurrentMember({ workspaceId });
         const { data: message, isLoading: isMessageLoading } = useGetMessage({ id: messageId });
-        const { results, status, loadMore } = useGetMessages({ channelId, parentMessageId: messageId });
+        const { results, status, loadMore } = useGetMessages({
+                channelId,
+                parentMessageId: messageId,
+        });
+
         const canLoadMore = status === 'CanLoadMore';
         const isLoadingMore = status === 'LoadingMore';
 
@@ -83,6 +87,8 @@ export const Thread = ({ messageId, onCloseMessage }: ThreadProps) => {
                                 values.image = storageId;
                         }
                         await createMessage(values, { throwError: true });
+                        //After fixing the bug, this line can be removed
+                        toast.success('Message sent');
 
                         setEditorKey((prev) => prev + 1);
                 } catch (error) {
@@ -138,6 +144,7 @@ export const Thread = ({ messageId, onCloseMessage }: ThreadProps) => {
                                 </div>
                         </div>
                 );
+
         return (
                 <div className="h-full flex flex-col">
                         <div className="flex justify-between items-center h-12 px-4 border-b">
@@ -155,8 +162,10 @@ export const Thread = ({ messageId, onCloseMessage }: ThreadProps) => {
                                                                 {formatDateLabel(dateKey)}
                                                         </span>
                                                 </div>
+                                                {/* TODO: Fix message list below not rendering when are in conversation thread */}
                                                 {messages.map((message, index) => {
                                                         const prevMessage = messages[index - 1];
+                                                        console.log(groupMessages);
                                                         const isCompact =
                                                                 prevMessage &&
                                                                 prevMessage.user?._id === message.user?._id &&
@@ -164,6 +173,7 @@ export const Thread = ({ messageId, onCloseMessage }: ThreadProps) => {
                                                                         new Date(message._creationTime),
                                                                         new Date(prevMessage._creationTime),
                                                                 ) < TIME_THRESHOLD;
+
                                                         return (
                                                                 <Message
                                                                         key={message._id}
@@ -219,7 +229,6 @@ export const Thread = ({ messageId, onCloseMessage }: ThreadProps) => {
                                         </div>
                                 )}
                                 <Message
-                                        hideThreadButton
                                         id={message._id}
                                         memberId={message.memberId}
                                         senderImage={message.user.image}
@@ -232,6 +241,7 @@ export const Thread = ({ messageId, onCloseMessage }: ThreadProps) => {
                                         updatedAt={message.updatedAt}
                                         isEditing={editingId === message._id}
                                         setEditingId={setEditingId}
+                                        hideThreadButton
                                 />
                         </div>
                         <div className="px-4">

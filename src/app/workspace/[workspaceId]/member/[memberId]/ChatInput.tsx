@@ -1,6 +1,6 @@
 import { useCreateMessage } from '@/features/messages/api/useCreateMessage';
 import { useGenerateUploadUrl } from '@/features/upload/api/useGenerateUploadUrl';
-import { useChannelId } from '@/hooks/useChannelId';
+
 import { useWorkspaceId } from '@/hooks/useWorkspaceId';
 import dynamic from 'next/dynamic';
 import Quill from 'quill';
@@ -13,20 +13,20 @@ import { Id } from '../../../../../../convex/_generated/dataModel';
 
 interface ChatInputProps {
         placeholder: string;
+        conversationId: Id<'conversations'>;
 }
 
 type CreateMessageValue = {
-        channelId: Id<'channels'>;
+        conversationId: Id<'conversations'>;
         workspaceId: Id<'workspaces'>;
         body: string;
         image: Id<'_storage'> | undefined;
 };
-export const ChatInput = ({ placeholder }: ChatInputProps) => {
+export const ChatInput = ({ placeholder, conversationId }: ChatInputProps) => {
         const [editorKey, setEditorKey] = useState(0);
         const [isPending, setIsPending] = useState(false);
         const editorRef = useRef<Quill | null>(null);
         const workspaceId = useWorkspaceId();
-        const channelId = useChannelId();
 
         const { mutate: createMessage } = useCreateMessage();
         const { mutate: generateUploadUrl } = useGenerateUploadUrl();
@@ -35,7 +35,7 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
                 try {
                         setIsPending(true);
                         editorRef.current?.enable(false);
-                        const values: CreateMessageValue = { workspaceId, channelId, body, image: undefined };
+                        const values: CreateMessageValue = { conversationId, workspaceId, body, image: undefined };
 
                         if (image) {
                                 const uploadUrl = await generateUploadUrl({}, { throwError: true });
@@ -68,7 +68,6 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
                                 key={editorKey}
                                 placeholder={placeholder}
                                 onSubmit={handleSubmit}
-                                onCancel={() => {}}
                                 disabled={isPending}
                                 innerRef={editorRef}
                         />
