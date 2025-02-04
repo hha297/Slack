@@ -14,6 +14,7 @@ import { useConfirm } from '@/hooks/useConfirm';
 import { useToggleReaction } from '@/features/reactions/api/useToggleReaction';
 import { Reactions } from './Reactions';
 import { usePanel } from '@/hooks/usePanel';
+import { ThreadBar } from './ThreadBar';
 const Renderer = dynamic(() => import('./Renderer'), { ssr: false });
 const Editor = dynamic(() => import('./Editor'), { ssr: false });
 
@@ -34,6 +35,7 @@ interface MessageProps {
         hideThreadButton?: boolean;
         threadCount?: number;
         threadImage?: string;
+        threadName?: string;
         threadTimestamp?: number;
 }
 const formatFullTime = (date: Date) => {
@@ -56,6 +58,7 @@ export const Message = ({
         hideThreadButton,
         threadCount,
         threadImage,
+        threadName,
         threadTimestamp,
 }: MessageProps) => {
         const [ConfirmDialog, confirm] = useConfirm(
@@ -156,6 +159,13 @@ export const Message = ({
                                                                         reactions={reactions}
                                                                         onChange={handleReaction}
                                                                 />
+                                                                <ThreadBar
+                                                                        count={threadCount}
+                                                                        image={threadImage}
+                                                                        name={threadName}
+                                                                        timestamp={threadTimestamp}
+                                                                        onClick={() => onOpenMessage(id)}
+                                                                />
                                                         </div>
                                                 )}
                                         </div>
@@ -232,6 +242,13 @@ export const Message = ({
                                                                 <Reactions
                                                                         reactions={reactions}
                                                                         onChange={handleReaction}
+                                                                />
+                                                                <ThreadBar
+                                                                        count={threadCount}
+                                                                        image={threadImage}
+                                                                        timestamp={threadTimestamp}
+                                                                        name={threadName}
+                                                                        onClick={() => onOpenMessage(id)}
                                                                 />
                                                         </div>
                                                 </div>

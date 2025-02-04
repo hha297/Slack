@@ -14,6 +14,7 @@ import { useChannelId } from '@/hooks/useChannelId';
 import { toast } from 'sonner';
 import { useGetMessages } from '../api/useGetMessages';
 import { differenceInMinutes, format, isToday, isYesterday } from 'date-fns';
+import { useMemberId } from '@/hooks/useMemberId';
 
 const Editor = dynamic(() => import('@/components/Editor'), { ssr: false });
 const TIME_THRESHOLD = 5;
@@ -53,6 +54,7 @@ export const Thread = ({ messageId, onCloseMessage }: ThreadProps) => {
         const { data: message, isLoading: isMessageLoading } = useGetMessage({ id: messageId });
         const { results, status, loadMore } = useGetMessages({
                 channelId,
+                conversationId: message?.conversationId,
                 parentMessageId: messageId,
         });
 
@@ -165,7 +167,7 @@ export const Thread = ({ messageId, onCloseMessage }: ThreadProps) => {
                                                 {/* TODO: Fix message list below not rendering when are in conversation thread */}
                                                 {messages.map((message, index) => {
                                                         const prevMessage = messages[index - 1];
-                                                        console.log(groupMessages);
+
                                                         const isCompact =
                                                                 prevMessage &&
                                                                 prevMessage.user?._id === message.user?._id &&
@@ -195,6 +197,7 @@ export const Thread = ({ messageId, onCloseMessage }: ThreadProps) => {
                                                                         hideThreadButton
                                                                         threadCount={message.threadCount}
                                                                         threadImage={message.threadImage}
+                                                                        threadName={message.threadName}
                                                                         threadTimestamp={message.threadTimestamp}
                                                                 />
                                                         );
