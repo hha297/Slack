@@ -8,15 +8,16 @@ import { usePanel } from '@/hooks/usePanel';
 import { Loader } from 'lucide-react';
 import { Id } from '../../../../convex/_generated/dataModel';
 import { Thread } from '@/features/messages/components/Thread';
+import { Profile } from '@/features/members/components/Profile';
 
 interface WorkspaceLayoutProps {
         children: React.ReactNode;
 }
 
 const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
-        const { parentMessageId, onCloseMessage } = usePanel();
+        const { parentMessageId, profileMemberId, onCloseMessage } = usePanel();
 
-        const showPanel = !!parentMessageId;
+        const showPanel = !!parentMessageId || !!profileMemberId;
         return (
                 <div className="h-full ">
                         <ToolBar />
@@ -38,6 +39,13 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
                                                                         <Thread
                                                                                 messageId={
                                                                                         parentMessageId as Id<'messages'>
+                                                                                }
+                                                                                onCloseMessage={onCloseMessage}
+                                                                        />
+                                                                ) : profileMemberId ? (
+                                                                        <Profile
+                                                                                memberId={
+                                                                                        profileMemberId as Id<'members'>
                                                                                 }
                                                                                 onCloseMessage={onCloseMessage}
                                                                         />

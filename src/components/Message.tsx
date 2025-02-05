@@ -66,11 +66,11 @@ export const Message = ({
                 'Are you sure you want to delete this message? This action cannot be undone.',
         );
 
-        const { parentMessageId, onOpenMessage, onCloseMessage } = usePanel();
+        const { parentMessageId, onOpenProfile, onOpenMessage, onCloseMessage } = usePanel();
         const { mutate: updateMessage, isPending: isUpdatingMessage } = useUpdateMessage();
         const { mutate: deleteMessage, isPending: isDeletingMessage } = useDeleteMessage();
         const { mutate: toggleReaction, isPending: isTogglingReaction } = useToggleReaction();
-        const isPending = useMemo(() => isUpdatingMessage, [isUpdatingMessage]);
+        const isPending = isUpdatingMessage || isDeletingMessage || isTogglingReaction;
 
         const handleReaction = (value: string) => {
                 toggleReaction(
@@ -197,7 +197,7 @@ export const Message = ({
                                 )}
                         >
                                 <div className="flex items-start gap-2">
-                                        <button>
+                                        <button onClick={() => onOpenProfile(memberId)}>
                                                 <Avatar>
                                                         <AvatarImage alt={senderName} src={senderImage} />
                                                         <AvatarFallback className="bg-[#a40547] text-white text-sm">
@@ -220,7 +220,7 @@ export const Message = ({
                                                         <div className="text-sm">
                                                                 <button
                                                                         className="font-bold text-primary hover:underline"
-                                                                        onClick={() => {}}
+                                                                        onClick={() => onOpenProfile(memberId)}
                                                                 >
                                                                         {senderName}
                                                                 </button>
