@@ -53,10 +53,11 @@ export const Thread = ({ messageId, onCloseMessage }: ThreadProps) => {
         const { data: currentMember } = useCurrentMember({ workspaceId });
         const { data: message, isLoading: isMessageLoading } = useGetMessage({ id: messageId });
         const { results, status, loadMore } = useGetMessages({
-                channelId,
-                conversationId: message?.conversationId,
+                channelId: channelId,
+
                 parentMessageId: messageId,
         });
+        console.log(results);
 
         const canLoadMore = status === 'CanLoadMore';
         const isLoadingMore = status === 'LoadingMore';
@@ -72,6 +73,8 @@ export const Thread = ({ messageId, onCloseMessage }: ThreadProps) => {
                                 body,
                                 image: undefined,
                         };
+                        console.log(values);
+                        console.log(results);
 
                         if (image) {
                                 const uploadUrl = await generateUploadUrl({}, { throwError: true });
@@ -89,8 +92,6 @@ export const Thread = ({ messageId, onCloseMessage }: ThreadProps) => {
                                 values.image = storageId;
                         }
                         await createMessage(values, { throwError: true });
-                        //After fixing the bug, this line can be removed
-                        toast.success('Message sent');
 
                         setEditorKey((prev) => prev + 1);
                 } catch (error) {

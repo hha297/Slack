@@ -124,16 +124,17 @@ export const get = query({
                 }
 
                 let _conversationId = args.conversationId;
+
                 if (!args.conversationId && !args.channelId && args.parentMessageId) {
                         const parentMessage = await ctx.db.get(args.parentMessageId);
-
+                        console.log(parentMessage);
                         if (!parentMessage) {
-                                throw new Error('Parent message not found');
+                                throw new Error('Message not found');
                         }
-
                         _conversationId = parentMessage.conversationId;
                 }
 
+                console.log(_conversationId);
                 const results = await ctx.db
                         .query('messages')
                         .withIndex('by_channel_id_parent_message_id_conversation_id', (q) =>
@@ -145,6 +146,7 @@ export const get = query({
                         .order('desc')
                         .paginate(args.paginationOpts);
 
+                console.log(results);
                 return {
                         ...results,
                         page: (
