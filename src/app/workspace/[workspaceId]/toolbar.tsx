@@ -18,7 +18,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export const ToolBar = () => {
+export const Toolbar = () => {
         const workspaceId = useWorkspaceId();
         const router = useRouter();
         const { data } = useGetWorkspace({ id: workspaceId });
