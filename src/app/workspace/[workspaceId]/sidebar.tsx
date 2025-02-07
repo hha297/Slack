@@ -3,8 +3,8 @@ import React from 'react';
 
 import { Bell, Home, MessageSquare, MoreHorizontal } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { WorkspaceSwitcher } from './WorkspaceSwitcher';
-import SidebarButton from './SidebarButton';
+import { WorkspaceSwitcher } from './workspace-switcher';
+import SidebarButton from './sidebar-button';
 
 export const Sidebar = () => {
         const pathname = usePathname();

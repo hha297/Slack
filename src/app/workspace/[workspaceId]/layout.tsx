@@ -2,7 +2,7 @@
 
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 
-import { WorkspaceSideBar } from './WorkspaceSidebar';
+import { WorkspaceSideBar } from './workspace-sidebar';
 import { usePanel } from '@/hooks/usePanel';
 import { Loader } from 'lucide-react';
 import { Id } from '../../../../convex/_generated/dataModel';
