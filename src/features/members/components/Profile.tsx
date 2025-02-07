@@ -187,6 +187,7 @@ export const Profile = ({ memberId, onCloseMessage }: ProfileProps) => {
                                                                         </DropdownMenuRadioGroup>
                                                                 </DropdownMenuContent>
                                                         </DropdownMenu>
+
                                                         <Button onClick={onRemoveMember} className="w-full">
                                                                 Remove
                                                         </Button>

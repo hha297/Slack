@@ -17,7 +17,8 @@ export const ConversationHero = ({ memberName = 'Member', memberImage }: Convers
                                 <p className="text-2xl font-bold flex items-center mb-2">{memberName}</p>
                         </div>
                         <p className="font-normal text-slate-800 my-4">
-                                This is the first message with <strong>@{memberName}</strong>
+                                This is the very beginning of your direct message history with {''}
+                                <strong>{memberName}</strong>. Only the two of you are in this conversation.
                         </p>
                 </div>
         );
